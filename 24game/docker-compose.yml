@@ -1,0 +1,14 @@
+version: "2"
+services:
+  web:
+    image: nginx
+    volumes:
+     - ./web/:/data/www/shouyiren.net/24game.shouyiren.net
+     - ./logs/:/data/logs:rw
+     - ./logs/nginx:/var/log/nginx:rw
+     - ./conf/vhosts:/etc/nginx/conf.d
+    ports:
+     - "8080:80"
+networks:
+  net-web:
+    

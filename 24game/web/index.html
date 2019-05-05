@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta charset="UTF-8">
+		<title>四张牌算24点</title>
+		<!-- <link rel="shortcut icon" href="/public/img/favicon.png"> -->
+		<style type="text/css">
+		html{font-size:62.5%;}
+		body {font:normal 100% Arial,sans-serif;font-size:14px; font-size:1.4rem; } 
+			button,input{
+				font-family: "Microsoft Yahei",Arial,Helvetica;
+			}
+			input{
+				width: 45%;
+				margin:0 auto 10px;
+				line-height: 24px;
+			}
+			.container{
+				width:100%;
+				margin:0 auto 15px;
+			}
+			textarea{
+				width:100%;
+				height:auto;
+			}
+			.copy{
+				width:auto;
+				margin:0 auto;
+				text-align:center;
+				color:#666;
+			}
+			.copy a{
+				color:#666;
+				text-decoration:none;
+			}
+			.copy a:hover{
+				text-decoration:underline;
+			}
+		</style>
+		<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			var index = 0
+
+			        function clickEnter() {
+			            $('input[name=input]').each(function (i) {
+			                if ($(this).is(':focus')) {
+			                    index = i
+			                }
+			            })
+			        }
+
+			        function onEnter() {
+			            if (event.keyCode == 13){
+			                index++
+			                console.log(index);
+			                if (index >= $('input[name=input]').length) {
+			                    index = 0
+			                }
+			                $('input[name=input]').each(function (i) {
+			                    if (i == index) {
+			                        $(this).focus()
+			                    }
+			                })		
+			            }
+			        }
+		</script>
+		<script type="text/javascript" src="calc24.js"></script>
+
+	</head>
+	<body>
+		<div class="container" onkeyup="onEnter()">
+			<p>输入四张牌数字：</p>
+			<p>
+				<input type="text" id="num1" name="input" onclick="clickEnter()"/>
+				<input type="text" id="num2" name="input" onclick="clickEnter()"/>
+				<input type="text" id="num3" name="input" onclick="clickEnter()"/>
+				<input type="text" id="num4" name="input" onclick="clickEnter()"/>
+			</p>
+			<p><button id="start">计算</button>
+			<p>计算结果：</p>
+			<p>
+				<textarea id="reslut"></textarea>
+			</p>
+		<div class="copy">powered by. 超级手艺人@shouyiren.net</div>
+		</div>
+		<script type="text/javascript">
+			document.getElementById('start').onclick = function(){
+				var num1 = +(document.getElementById('num1').value)|| 0;
+				var num2 = +(document.getElementById('num2').value)|| 0;
+				var num3 = +(document.getElementById('num3').value)|| 0;
+				var num4 = +(document.getElementById('num4').value)|| 0;				
+				var arr = calc24(num1,num2,num3,num4);
+				var str = arr.length?'':'不能够计算得到！';
+				for(var i = arr.length;i--;){
+					str += arr[i]+'\n';
+				}
+				document.getElementById('reslut').value = str; 
+				document.getElementById('reslut').style.height = document.getElementById('reslut').scrollHeight + 'px';
+			}
+		</script>
+	</body>
+</html>

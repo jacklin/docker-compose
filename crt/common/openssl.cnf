@@ -1,0 +1,55 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+[req_distinguished_name]
+countryName = CN
+countryName_default = CN
+stateOrProvinceName = Fujian
+stateOrProvinceName_default = FJ
+localityName = Xiamen
+localityName_default = XM
+organizationalUnitName  = Xiamen Bazhang Interactive Technology Co., Ltd.
+organizationalUnitName_default  = XMBZ
+commonName = JiWang
+commonName_max  = 64
+
+[ v3_req ]
+# Extensions to add to a certificate request
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = *.7723api.com
+DNS.2 = *.7723api.cn
+DNS.3 = *.7723api.net
+DNS.4 = *.7723.com
+DNS.5 = *.7723.cn
+DNS.6 = *.7723img.cn
+DNS.7 = *.7723img.com
+DNS.8 = *.bazhang.com
+DNS.9 = *.dev.7723api.com
+DNS.10 = *.dev.7723api.cn
+DNS.11 = *.dev.7723api.net
+DNS.12 = *.dev.7723.com
+DNS.13 = *.dev.7723.cn
+DNS.14 = *.dev.7723img.cn
+DNS.15 = *.dev.7723img.com
+DNS.16 = *.dev.bazhang.com
+DNS.17 = *.gateway.7723api.com
+DNS.18 = *.gateway.7723api.cn
+DNS.19 = *.gateway.7723api.net
+DNS.20 = *.gateway.7723.com
+DNS.21 = *.gateway.7723.cn
+DNS.22 = *.gateway.7723img.cn
+DNS.23 = *.gateway.7723img.com
+DNS.24 = *.gateway.bazhang.com
+DNS.25 = *.gateway.dev.7723api.com
+DNS.26 = *.gateway.dev.7723api.cn
+DNS.27 = *.gateway.dev.7723api.net
+DNS.28 = *.gateway.dev.7723.com
+DNS.29 = *.gateway.dev.7723.cn
+DNS.30 = *.gateway.dev.7723img.cn
+DNS.31 = *.gateway.dev.7723img.com
+DNS.32 = *.gateway.dev.bazhang.com
+

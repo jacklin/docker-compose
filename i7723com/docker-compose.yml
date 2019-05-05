@@ -1,0 +1,15 @@
+version: "2"
+services:
+  web:
+    image: nginx
+    volumes:
+     - ./web/:/data/www/7723.com/i.7723.com
+     - ./logs/:/data/logs:rw
+     - ./logs/7723.com/i.7723.com:/data/logs/7723.com/i.7723.com/:rw
+     - ./logs/nginx:/var/log/nginx:rw
+     - ./conf/vhosts:/etc/nginx/conf.d
+    ports:
+     - "8001:80"
+networks:
+  net-web-i.7723.com-1:
+    

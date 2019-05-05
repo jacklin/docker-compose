@@ -1,0 +1,50 @@
+version: "2"
+services:
+  lb-fpm:
+    image: haproxy:alpine
+    container_name: lb-fpm
+    ports:
+      - 7120:7120
+    links:
+      - php-fpm
+    volumes:
+      - ./haproxy/lb-fpm:/usr/local/etc/haproxy:ro
+    networks:
+      - net-web
+  lb-nginx:
+    image: haproxy:alpine
+    container_name: lb-nginx
+    ports:
+      - 80:8080
+      - 5669:5669
+    links:
+      - nginx
+    volumes:
+      - ./haproxy/lb-nginx:/usr/local/etc/haproxy:ro
+    networks:
+      - net-web      
+  php-fpm:
+    image: jacklin/php:7.1.2-fpm-alpine
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./php/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
+      - ./php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ./php/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+      - ./data/www/7723.com/gateway.7723.com:/data/www/7723.com/gateway.7723.com:rw
+    networks:
+      - net-web
+  nginx:
+    image: nginx
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./nginx/vhosts:/etc/nginx/conf.d:ro
+      - /data/www/7723.com/gateway.7723.com:/data/www/7723.com/gateway.7723.com:rw
+      - /data/logs/7723.com/gateway.7723.com:/data/logs/7723.com/gateway.7723.com:rw
+      - /data/logs/nginx:/var/log/nginx:rw
+    links:
+      - lb-fpm
+    networks:
+      - net-web
+networks:
+  net-web:
