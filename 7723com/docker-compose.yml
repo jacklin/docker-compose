@@ -1,0 +1,23 @@
+version: "2"
+services:
+  lb-nginx:
+    image: haproxy:alpine
+    container_name: lb-nginx-7723com
+    ports:
+      - 80:8080
+      - 5669:5669
+    links:
+      - nginx
+    volumes:
+      - ./haproxy/lb-nginx:/usr/local/etc/haproxy:ro
+    networks:
+      - net-web      
+  nginx:
+    image: nginx
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./nginx/vhosts:/etc/nginx/conf.d:ro
+    networks:
+      - net-web
+networks:
+  net-web:

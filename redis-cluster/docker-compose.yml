@@ -1,0 +1,86 @@
+version: "3.7"
+services:
+  master-1:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/master-1:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=6000
+     - DBFILENAME=master-1.db
+     - DAEMONIZE=no
+    ports:
+     - 6000:6000
+    network_mode: host
+  master-2:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/master-2:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=6001
+     - DBFILENAME=master-2.db
+     - DAEMONIZE=no
+    ports:
+     - 6001:6001
+    network_mode: host
+  master-3:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/master-3:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=6002
+     - DBFILENAME=master-3.db
+     - DAEMONIZE=no
+    ports:
+     - 6002:6002
+    network_mode: host
+  slave-1:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/slave-1:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=7000
+     - DBFILENAME=slave-1.db
+     - DAEMONIZE=no
+    ports:
+     - 7000:7000
+    network_mode: host
+  slave-2:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/slave-2:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=7001
+     - DBFILENAME=slave-2.db
+     - DAEMONIZE=no
+    ports:
+     - 7001:7001
+    network_mode: host
+  slave-3:
+    build: ./redis
+    image: jacklin/redis:5.0-cluster
+    volumes:
+      - ./data/slave-3:/data:rw
+    environment:
+     - REQUIREPASS=123456
+     - MASTERAUTH=123456
+     - PORT=7002
+     - DBFILENAME=slave-3.db
+     - DAEMONIZE=no
+    ports:
+     - 7002:7002
+    network_mode: host

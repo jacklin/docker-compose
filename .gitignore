@@ -2,3 +2,7 @@ elastic/data/
 web/data/www/
 web/nginx/logs/
 web/logs/
+gateway7723com/data/www/
+gateway7723com/logs/
+redis-cluster/data/
+mysql8/data/

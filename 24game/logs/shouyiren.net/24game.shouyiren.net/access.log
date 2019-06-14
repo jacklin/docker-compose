@@ -28,3 +28,5 @@
 192.168.50.1 - - [29/Jan/2019:02:43:26 +0000] "GET /calc24.js HTTP/1.1" 200 1183 "http://192.168.50.90:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Mobile Safari/537.36" "-"
 192.168.50.1 - - [29/Jan/2019:02:43:28 +0000] "GET / HTTP/1.1" 200 1767 "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Mobile Safari/537.36" "-"
 192.168.50.1 - - [29/Jan/2019:02:43:28 +0000] "GET /calc24.js HTTP/1.1" 200 1183 "http://192.168.50.90:8080/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Mobile Safari/537.36" "-"
+192.168.50.99 - - [22/May/2019:01:24:13 +0000] "\xFF\xF4\xFF\xFD\x06" 400 173 "-" "-" "-"
+192.168.50.99 - - [22/May/2019:01:24:33 +0000] "\xFF\xF4\xFF\xFD\x06" 400 173 "-" "-" "-"
