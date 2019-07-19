@@ -1,0 +1,22 @@
+cluster.name: my-test
+cluster.initial_master_nodes: ["es"]
+
+node.name: es4
+node.master: false
+node.data: false
+
+network.host: es4
+
+http.port: 9200
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+transport.port: 9300
+
+discovery.seed_hosts: ["es","es1","es2","es3","es4"]
+
+bootstrap.memory_lock: true
+
+action.destructive_requires_name: true
+
+

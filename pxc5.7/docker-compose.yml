@@ -1,0 +1,86 @@
+version: '3.1'
+services:
+  lb-db:
+    image: haproxy:alpine
+    container_name: lb-db
+    restart: always
+    ports:
+      - 8888:5669
+      - 3306:3306
+    links:
+      - db1
+      - db2
+      - db3
+    volumes:
+      - ./conf/lb:/usr/local/etc/haproxy:ro   
+    networks:
+      - net-pxc57
+  db1:
+    image: percona/percona-xtradb-cluster:5.7
+    container_name: db1
+    privileged: true
+    restart: always
+    environment:
+      - "CLUSTER_NAME=MYSQLPXC"
+      - "XTRABACKUP_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "TZ=Asia/Shanghai"
+    volumes:
+      - vdb1:/var/lib/mysql
+      - ./data/backup:/data
+      - /data1/mysql/:/etc/my.cnf.d/
+    ports:
+      - 33061:3306
+    networks:
+      - net-pxc57
+  db2:
+    image: percona/percona-xtradb-cluster:5.7
+    container_name: db2
+    privileged: true
+    restart: always
+    environment:
+      - "CLUSTER_NAME=MYSQLPXC"
+      - "XTRABACKUP_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "TZ=Asia/Shanghai"
+      - "CLUSTER_JOIN=db1"
+    volumes:
+      - vdb2:/var/lib/mysql
+      - ./data/backup:/data
+      - /data1/mysql/:/etc/my.cnf.d/
+    ports:
+      - 33062:3306
+    depends_on:
+      - db1
+    networks:
+      - net-pxc57
+  db3:
+    image: percona/percona-xtradb-cluster:5.7
+    container_name: db3
+    privileged: true
+    restart: always
+    environment:
+      - "CLUSTER_NAME=MYSQLPXC"
+      - "XTRABACKUP_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+      - "TZ=Asia/Shanghai"
+      - "CLUSTER_JOIN=db1"
+    volumes:
+      - vdb3:/var/lib/mysql
+      - ./data/backup:/data
+      - /data1/mysql/:/etc/my.cnf.d/
+    ports:
+      - 33063:3306
+    depends_on:
+      - db1
+    networks:
+      - net-pxc57
+volumes:
+  vdb1:
+    driver: local
+  vdb2:
+    driver: local
+  vdb3:
+    driver: local
+networks:
+  net-pxc57:

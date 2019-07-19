@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+
+	<schema name="INFORMATION_SCHEMA" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn0"/>
+	<schema name="WWW7723CN" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn1"/>
+	<schema name="7723COM" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn2"/>
+
+	<dataNode name="dn0" dataHost="db" database="information_schema" />
+	<dataNode name="dn1" dataHost="db" database="db_www7723cn" />
+	<dataNode name="dn2" dataHost="db" database="db_7723com" />
+
+	<dataHost name="db" maxCon="1000" minCon="10" balance="0"
+			  writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
+		<heartbeat>select user()</heartbeat>
+		<!-- can have multi write hosts -->
+		<writeHost host="db_m" url="172.10.0.2:3306" user="root" password="root">
+			<!-- can have multi read hosts -->
+			<readHost host="db_s_1" url="172.10.0.3:3306" user="root" password="root" />
+			<readHost host="db_s_2" url="172.10.0.4:3306" user="root" password="root" />
+		</writeHost>
+		<!-- <writeHost host="hostM2" url="localhost:3316" user="root" password="123456"/> -->
+	</dataHost>
+</mycat:schema>

@@ -1,0 +1,118 @@
+version: '2.2'
+services:
+  es:
+    image: elasticsearch:7.2.0
+    container_name: es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    networks:
+      - net-es720 
+  es1:
+    image: elasticsearch:7.2.0
+    container_name: es1    
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    volumes:
+      - ./data/es1:/usr/share/elasticsearch/data/:rw
+      - ./config/es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es1.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es1.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    networks:
+      - net-es720
+  es2:
+    image: elasticsearch:7.2.0
+    container_name: es2
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9202:9200"
+      - "9302:9300"
+    volumes:
+      - ./data/es2:/usr/share/elasticsearch/data/:rw
+      - ./config/es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es2.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es2.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    networks:
+      - net-es720
+  es3:
+    image: elasticsearch:7.2.0
+    container_name: es3
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9203:9200"
+      - "9303:9300"
+    volumes:
+      - ./data/es3:/usr/share/elasticsearch/data/:rw
+      - ./config/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es3.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es3.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    networks:
+      - net-es720
+  es4:
+    image: elasticsearch:7.2.0
+    container_name: es4
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9204:9200"
+      - "9304:9300"
+    volumes:
+      - ./data/es4:/usr/share/elasticsearch/data/:rw
+      - ./config/es4.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es4.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es4.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    networks:
+      - net-es720
+  kibana:
+    image: kibana:7.2.0
+    container_name: kibana
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_HOSTS: http://es:9200
+    ports:
+      - 5601:5601
+    networks:
+      - net-es720
+networks:
+  net-es720:

@@ -1,0 +1,125 @@
+version: '2'
+services:
+  db_m:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db_m
+    volumes:
+      - /docker-compose/mysql8-rw/conf/db_m/:/etc/mysql/conf.d:ro
+      - /docker-compose/mysql8-rw/data/db_m:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "33061:3306"
+    networks:
+      - mysql
+    ulimits:
+      nproc: 65535
+    hostname: db_m
+    mem_limit: 1024m
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      mysql:
+        ipv4_address: 172.10.0.2
+  db_s_1:
+      image: mysql:8.0
+      command: --default-authentication-plugin=mysql_native_password
+      container_name: db_s_1
+      volumes:
+        - /docker-compose/mysql8-rw/conf/db_s_1/:/etc/mysql/conf.d:ro
+        - /docker-compose/mysql8-rw/data/db_s_1:/var/lib/mysql
+        - /etc/localtime:/etc/localtime:ro
+      ports:
+        - "33062:3306"
+      networks:
+        - mysql
+      links:
+        - db_m
+      ulimits:
+        nproc: 65535
+      hostname: db_s_1
+      mem_limit: 1024m
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+      networks:
+        mysql:
+          ipv4_address: 172.10.0.3
+  db_s_2:
+      image: mysql:8.0
+      command: --default-authentication-plugin=mysql_native_password
+      container_name: db_s_2
+      volumes:
+        - /docker-compose/mysql8-rw/conf/db_s_2/:/etc/mysql/conf.d:ro
+        - /docker-compose/mysql8-rw/data/db_s_2:/var/lib/mysql
+        - /etc/localtime:/etc/localtime:ro
+
+      ports:
+        - "33063:3306"
+      networks:
+        - mysql
+      links:
+        - db_m
+      ulimits:
+        nproc: 65535
+      hostname: db_s_2
+      mem_limit: 1024m
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+      networks:
+        mysql:
+          ipv4_address: 172.10.0.4
+
+  maxscale:
+    image: mariadb/maxscale
+    container_name: maxscale
+    volumes:
+      - /docker-compose/mysql8-rw/conf/maxscale/maxscale.cnf:/etc/maxscale.cnf:ro
+      - /docker-compose/mysql8-rw/logs/maxscale-logs/:/maxscale/logs/:rw
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "4008:4008"
+      - "4006:4006"
+    links:
+      - db_m
+      - db_s_1
+      - db_s_2
+    networks:
+      mysql:
+        ipv4_address: 172.10.0.5
+    ulimits:
+      nproc: 65535
+    hostname: maxscale
+    mem_limit: 1024m
+    restart: always
+  mycat:
+    image: longhronshens/mycat-docker
+    container_name: mycat
+    volumes:
+      - ./conf/mycat/:/usr/local/mycat/conf
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8066:8066"
+      - "9066:9066"
+    links:
+      - db_m
+      - db_s_1
+      - db_s_2
+    networks:
+      mysql:
+        ipv4_address: 172.10.0.6
+    ulimits:
+      nproc: 65535
+    hostname: mycat
+    mem_limit: 1024m
+    restart: always
+networks:
+  mysql:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.10.0.0/24
+        gateway: 172.10.0.1
