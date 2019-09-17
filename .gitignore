@@ -9,3 +9,4 @@ mysql8/data/
 elastic5.6/data/
 elastic7.2/data/
 pxc5.7/data/
+beanstalkd/data/
