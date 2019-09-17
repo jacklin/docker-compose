@@ -1,0 +1,23 @@
+cluster.name: my-test
+cluster.initial_master_nodes: ["es720"]
+
+
+node.name: es720
+node.master: true
+node.data: true
+node.attr.tag: hot
+
+network.host: es720
+
+http.port: 9200
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+transport.port: 9300
+
+discovery.seed_hosts: ["es720"]
+#######优化配置
+bootstrap.memory_lock: true
+
+action.destructive_requires_name: true
+

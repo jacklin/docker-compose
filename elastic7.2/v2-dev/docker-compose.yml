@@ -1,0 +1,39 @@
+version: '2.2'
+services:
+  es:
+    image: elasticsearch:7.2.0
+    container_name: es720
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9272:9200"
+      - "9372:9300"
+    volumes:
+      - ./data/es720:/usr/share/elasticsearch/data
+      - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./config/_es.jvm.options:/usr/share/elasticsearch/config/jvm.options
+      - ./config/_es.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
+    networks:
+      - net-es720 
+  kibana:
+    image: kibana:7.2.0
+    container_name: kibana720
+    environment:
+      SERVER_NAME: kibana720
+      ELASTICSEARCH_HOSTS: http://es720:9200
+    ports:
+      - 5601:5601
+    networks:
+      - net-es720
+volumes:
+  vdb1:
+    driver: local
+networks:
+  net-es720:

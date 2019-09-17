@@ -18,6 +18,7 @@ services:
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
       - ./config/_es.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
     networks:
       - net-es720 
   es1:
@@ -34,11 +35,12 @@ services:
       - "9201:9200"
       - "9301:9300"
     volumes:
-      - ./data/es1:/usr/share/elasticsearch/data/:rw
+      - vdb1:/usr/share/elasticsearch/data
       - ./config/es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
       - ./config/_es1.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es1.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
     networks:
       - net-es720
   es2:
@@ -55,11 +57,12 @@ services:
       - "9202:9200"
       - "9302:9300"
     volumes:
-      - ./data/es2:/usr/share/elasticsearch/data/:rw
+      - vdb2:/usr/share/elasticsearch/data
       - ./config/es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
       - ./config/_es2.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es2.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
     networks:
       - net-es720
   es3:
@@ -76,11 +79,12 @@ services:
       - "9203:9200"
       - "9303:9300"
     volumes:
-      - ./data/es3:/usr/share/elasticsearch/data/:rw
+      - vdb3:/usr/share/elasticsearch/data
       - ./config/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
       - ./config/_es3.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es3.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
     networks:
       - net-es720
   es4:
@@ -97,11 +101,12 @@ services:
       - "9204:9200"
       - "9304:9300"
     volumes:
-      - ./data/es4:/usr/share/elasticsearch/data/:rw
+      - vdb4:/usr/share/elasticsearch/data
       - ./config/es4.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
       - ./config/_es4.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es4.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+    restart: always
     networks:
       - net-es720
   kibana:
@@ -114,5 +119,14 @@ services:
       - 5601:5601
     networks:
       - net-es720
+volumes:
+  vdb1:
+    driver: local
+  vdb2:
+    driver: local
+  vdb3:
+    driver: local
+  vdb4:
+    driver: local
 networks:
   net-es720:

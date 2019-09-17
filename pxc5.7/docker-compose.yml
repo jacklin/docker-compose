@@ -1,11 +1,20 @@
 version: '3.1'
 services:
+  adminer:
+    image: adminer
+    container_name: adminer-db
+    restart: always
+    ports:
+      - 8088:8080
+    networks:
+      - net-pxc57
+      - net-app-internal
   lb-db:
     image: haproxy:alpine
     container_name: lb-db
     restart: always
     ports:
-      - 8888:5669
+      - 8088:5669
       - 3306:3306
     links:
       - db1
@@ -15,6 +24,7 @@ services:
       - ./conf/lb:/usr/local/etc/haproxy:ro   
     networks:
       - net-pxc57
+      - net-app-internal
   db1:
     image: percona/percona-xtradb-cluster:5.7
     container_name: db1
@@ -28,11 +38,12 @@ services:
     volumes:
       - vdb1:/var/lib/mysql
       - ./data/backup:/data
-      - /data1/mysql/:/etc/my.cnf.d/
+      - ./data/mysql/:/etc/my.cnf.d/
     ports:
       - 33061:3306
     networks:
       - net-pxc57
+      - net-app-internal
   db2:
     image: percona/percona-xtradb-cluster:5.7
     container_name: db2
@@ -47,13 +58,14 @@ services:
     volumes:
       - vdb2:/var/lib/mysql
       - ./data/backup:/data
-      - /data1/mysql/:/etc/my.cnf.d/
+      - ./data/mysql/:/etc/my.cnf.d/
     ports:
       - 33062:3306
     depends_on:
       - db1
     networks:
       - net-pxc57
+      - net-app-internal
   db3:
     image: percona/percona-xtradb-cluster:5.7
     container_name: db3
@@ -68,13 +80,14 @@ services:
     volumes:
       - vdb3:/var/lib/mysql
       - ./data/backup:/data
-      - /data1/mysql/:/etc/my.cnf.d/
+      - ./data/mysql/:/etc/my.cnf.d/
     ports:
       - 33063:3306
     depends_on:
       - db1
     networks:
       - net-pxc57
+      - net-app-internal
 volumes:
   vdb1:
     driver: local
@@ -84,3 +97,5 @@ volumes:
     driver: local
 networks:
   net-pxc57:
+  net-app-internal:
+    external: true

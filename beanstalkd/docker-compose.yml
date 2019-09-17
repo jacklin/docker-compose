@@ -42,6 +42,28 @@ services:
    - "11301:11300/tcp"
    expose:
    - 11300
+  bs-pc-n1:
+   image: uretgec/beanstalkd-alpine
+   container_name: beanstalkd-pc-n1
+   volumes:
+   - ./data/beanstalkd-pc-n1:/data:rw
+   entrypoint:
+    - /usr/bin/beanstalkd
+    - -u 
+    - root
+    - -b
+    - /data
+    - -z
+    - "65535"
+    - -s
+    - "1048576000"
+   networks:
+   - net-es
+   ports:
+   - "11302:11300/tcp"
+   restart: always
+   expose:
+   - 11300
 
 networks:
   net-es:

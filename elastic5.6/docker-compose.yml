@@ -18,6 +18,7 @@ services:
     volumes:
       - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./data/es:/usr/share/elasticsearch/data/:rw
+      - ./data/es_data2:/usr/share/elasticsearch/data2/:rw
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
     networks:
       - net-es

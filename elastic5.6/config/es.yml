@@ -1,7 +1,10 @@
 cluster.name: my-test
+cluster.routing.allocation.disk.threshold_enabled: false
 node.name: es
 node.master: true
 node.data: true
+
+path.data: /usr/share/elasticsearch/data,/usr/share/elasticsearch/data2
 
 network.host: es
 http.port: 9200
