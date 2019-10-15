@@ -1,0 +1,40 @@
+version: '2'
+services:
+  es-single:
+    image: elasticsearch:5.6-alpine
+    container_name: es-single
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: always
+    volumes:
+      - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      - ./data/es:/usr/share/elasticsearch/data/:rw
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+    networks:
+      - net-es-single
+    stdin_open: true
+  kibana-single:
+    image: kibana
+    container_name: kibana-single
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://es-single:9200
+    depends_on:
+     - es-single
+    ports:
+      - 5601:5601
+    networks:
+      - net-es-single
+networks:
+  net-es-single:

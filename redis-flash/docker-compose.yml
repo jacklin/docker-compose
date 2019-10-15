@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  flash-redis:
+    image: redislabs/redis
+    privileged: true
+    volumes:
+      - ./data/redislabs/persist:/data/redislabs/persist:rw
+      - ./data/redislabs/tmp:/data/redislabs/tmp:rw
+      - ./data/redislabs/flash:/data/redislabs/flash:rw
+    ports:
+     - 8443:8443
+     - 12000-12099:12000-12099
+    cap_add:
+     - SYS_RESOURCE
+    mem_limit: 4G
+    memswap_limit: 8G
+    networks:
+      - net-flash-redis
+networks:
+  net-flash-redis:
