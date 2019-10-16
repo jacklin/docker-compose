@@ -1,4 +1,4 @@
-# 不建议使用于生产环境，由于容器启动到结束，内存中的数据将被清空
+# 须设置Persistence 为Append Only File (AOF) - fsync every write 否则不建议使用于生产环境，由于容器启动到结束，内存中的数据将被清空
 
 #使用本地驱动器
 version: "3.7"
