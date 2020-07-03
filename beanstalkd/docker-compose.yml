@@ -21,6 +21,7 @@ services:
    - "11300:11300/tcp"
    expose:
    - 11300
+   restart: always
   bs-n1:
    image: uretgec/beanstalkd-alpine
    container_name: beanstalkd-n1
@@ -42,6 +43,7 @@ services:
    - "11301:11300/tcp"
    expose:
    - 11300
+   restart: always
   bs-pc-n1:
    image: uretgec/beanstalkd-alpine
    container_name: beanstalkd-pc-n1

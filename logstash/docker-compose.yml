@@ -1,0 +1,17 @@
+version: '3.0'
+services:
+  logstash:
+    image: logstash:7.5.0
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./config/jvm.options:/usr/share/logstash/config/jvm.options
+      - ./pipeline/:/usr/share/logstash/pipeline/
+    networks:
+      - elastic-stack
+networks:
+  elastic-stack:
+    external:
+      name: app_net

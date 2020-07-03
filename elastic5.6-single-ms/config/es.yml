@@ -1,0 +1,20 @@
+cluster.name: my-test-single
+cluster.routing.allocation.disk.threshold_enabled: false
+node.name: es-single-m
+node.master: true
+node.data: true
+
+path.data: /usr/share/elasticsearch/data
+
+network.host: es-single-m
+http.port: 9200
+transport.tcp.port: 9300
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+discovery.zen.ping.unicast.hosts: ["es-single-m:9300","es-single-s:9300"]
+discovery.zen.minimum_master_nodes: 1
+discovery.zen.ping_timeout: 5s
+
+bootstrap.memory_lock: true
+action.destructive_requires_name: true

@@ -15,7 +15,7 @@ http.cors.allow-origin: "*"
 
 transport.port: 9300
 
-discovery.seed_hosts: ["es","es1","es2","es3","es4"]
+discovery.seed_hosts: ["es","es1","es2"]
 #######优化配置
 bootstrap.memory_lock: true
 

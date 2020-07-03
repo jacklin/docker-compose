@@ -1,0 +1,59 @@
+version: '2.2'
+services:
+  es04:
+    image: elasticsearch:7.7.0
+    container_name: es04
+    environment:
+      - node.name=es04
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02,es03,es05
+      - cluster.initial_master_nodes=es01,es03,es04
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.data=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9204:9200"
+      - "9304:9300"
+    volumes:
+      - vdb3:/usr/share/elasticsearch/data
+    restart: always
+    networks:
+      - elastic77_net-es770 
+  es05:
+    image: elasticsearch:7.7.0
+    container_name: es05
+    environment:
+      - node.name=es05
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02,es03,es04
+      - cluster.initial_master_nodes=es01,es03,es04
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.data=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9205:9200"
+      - "9305:9300"
+    restart: always
+    networks:
+      - elastic77_net-es770
+volumes:
+  vdb3:
+    driver: local
+networks:
+  elastic77_net-es770:
+    driver: overlay
+    external: true

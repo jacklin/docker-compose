@@ -1,0 +1,71 @@
+version: '2'
+services:
+  es-single-m:
+    image: elasticsearch:5.6.12-alpine
+    container_name: es-single-m
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    restart: always
+    volumes:
+      - vdb2:/usr/share/elasticsearch/data
+      - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+    networks:
+      - net-es-single
+    stdin_open: true
+  es-single-s:
+    image: elasticsearch:5.6.12-alpine
+    container_name: es-single-s
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xms512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9202:9200"
+      - "9302:9300"
+    restart: always
+    volumes:
+      - vdb1:/usr/share/elasticsearch/data
+      - ./config/es-s.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+    networks:
+      - net-es-single
+    stdin_open: true
+  kibana-single:
+    image: kibana:5.6
+    container_name: kibana-single
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://es-single-m:9200
+    depends_on:
+     - es-single-m
+    ports:
+      - 5601:5601
+    networks:
+      - net-es-single
+volumes:
+  vdb1:
+    driver: local
+  vdb2:
+    driver: local
+networks:
+  net-es-single:
+   external:
+      name: app_net

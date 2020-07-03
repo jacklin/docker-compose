@@ -130,3 +130,5 @@ volumes:
     driver: local
 networks:
   net-es720:
+    external:
+      name: app_net

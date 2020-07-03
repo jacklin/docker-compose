@@ -19,7 +19,7 @@ services:
     volumes:
       - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./config/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
-      - ./data/es:/usr/share/elasticsearch/data/:rw
+      -  vdb1:/usr/share/elasticsearch/data
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
     networks:
       - net-es-single
@@ -36,5 +36,10 @@ services:
       - 5601:5601
     networks:
       - net-es-single
+volumes:
+  vdb1:
+    driver: local
 networks:
   net-es-single:
+   external:
+      name: app_net

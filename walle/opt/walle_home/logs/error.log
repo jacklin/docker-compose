@@ -1,0 +1,84 @@
+2019-11-01 17:33:17,872 ERROR /opt/walle_home/walle/service/waller.py 92 waller.run No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available
+2019-11-01 17:33:17,889 ERROR /opt/walle_home/walle/service/waller.py 111 waller.run task_id=0, user:root host:192.168.50.99 command:id, status=1, message:No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available
+2019-11-01 17:33:18,004 ERROR /opt/walle_home/walle/service/waller.py 92 waller.run No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available
+2019-11-01 17:33:18,009 ERROR /opt/walle_home/walle/service/waller.py 111 waller.run task_id=0, user:root host:192.168.50.99 command:[ -d cps.399online.com ] || mkdir -p cps.399online.com, status=1, message:No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available
+2019-11-01 17:33:18,123 ERROR /opt/walle_home/walle/service/waller.py 92 waller.run No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available
+2019-11-01 17:33:18,128 ERROR /opt/walle_home/walle/service/waller.py 111 waller.run task_id=0, user:root host:192.168.50.99 command:[ -L "/data/tmp/web/cps.399online.com" ] && echo "true" || echo "false", status=1, message:No authentication methods available
+Traceback (most recent call last):
+  File "/opt/walle_home/walle/service/waller.py", line 53, in run
+    result = super(Waller, self).run(command, pty=pty, warn=True, watchers=[say_yes()], env=self.custom_global_env, **kwargs)
+  File "<decorator-gen-3>", line 2, in run
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 29, in opens
+    self.open()
+  File "/usr/local/lib/python2.7/site-packages/fabric2/connection.py", line 541, in open
+    self.client.connect(**kwargs)
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 437, in connect
+    passphrase,
+  File "/usr/local/lib/python2.7/site-packages/paramiko/client.py", line 750, in _auth
+    raise SSHException("No authentication methods available")
+SSHException: No authentication methods available

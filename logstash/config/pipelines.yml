@@ -1,0 +1,29 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+- pipeline.id: sdk_cy_daily_order
+  path.config: "/usr/share/logstash/pipeline/sdk_cy_daily_order.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+- pipeline.id: sdk_cy_logininfo
+  path.config: "/usr/share/logstash/pipeline/sdk_cy_logininfo.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+- pipeline.id: sdk_cy_game_members
+  path.config: "/usr/share/logstash/pipeline/sdk_cy_game_members.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+- pipeline.id: sdk_cy_pay
+  path.config: "/usr/share/logstash/pipeline/sdk_cy_pay.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+- pipeline.id: sdk_game_down
+  path.config: "/usr/share/logstash/pipeline/sdk_game_down.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+- pipeline.id: tj
+  path.config: "/usr/share/logstash/pipeline/tj.conf"
+  pipeline.workers: 3
+  queue.type: persisted
+
