@@ -25,7 +25,7 @@ services:
       - net-es-single
     stdin_open: true
   kibana-single:
-    image: kibana
+    image: kibana:5.6
     container_name: kibana-single
     environment:
       SERVER_NAME: kibana

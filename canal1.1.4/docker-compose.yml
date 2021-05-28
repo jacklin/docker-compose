@@ -1,0 +1,75 @@
+version: '3.0'
+services:
+  #######################################
+  # canal-admin
+  #######################################
+  canal-admin:
+    image: jacklin/canal:admin-1.1.4
+    restart: always
+    environment:
+      ADDRESS: "192.168.50.99"
+      DATABASE: "canal_manager"
+      USERNAME: "cannal"
+      PASSWORD: 'cannal'
+    ports:
+      - 8089:8089
+    networks:
+      - canal-net
+  #######################################
+  # canal-server
+  #######################################
+  canal-server:
+    image: jacklin/canal:server-1.1.4
+    restart: always
+    environment:
+      CANAL_INSTANCE_MASTER_ADDRESS: "192.168.50.99"
+      CANAL_INSTANCE_DBUSERNAME: "cannal"
+      CANAL_INSTANCE_DBPASSWORD: 'cannal'
+      CANAL_INSTANCE_CONNECTIONCHARSET: "utf-8"
+      CANAL_INSTANCE_ENABLEDRUID: 'false'
+      CANAL_REGISTER_IP: ''
+      CANAL_ADMIN_MANAGER: "canal-admin:8089"
+      CANAL_ADMIN_PORT: "11110"
+      CANAL_ADMIN_USER: "admin"
+      CANAL_ADMIN_PASSWD: "6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9"
+      CANAL_ADMIN_REGISTER_AUTO: "true"
+      CANAL_ADMIN_REGISTER_CLUSTER: "test"
+    links:
+      - canal-admin
+    depends_on:
+      - canal-admin
+    networks:
+      - canal-net
+  #######################################
+  # canal-adapter
+  #######################################
+  canal-adapter:
+    image: jacklin/canal:adapter-1.1.4
+    restart: always
+    networks:
+      - canal-net
+    environment:
+      CANALSERVERHOST: ""
+      CANAL_ZOOKEEPERHOSTS: "192.168.50.90:2181"
+      URL: "jdbc:mysql://192.168.50.99:3306/sdk?useUnicode=true"
+      USERNAME: "cannal"
+      PASSWORD: "cannal"
+      INSTANCE: 'example'
+      HOSTS: "192.168.50.90:9200"
+      CLUSTER_NAME: "my-test-single"
+      LOGBACK_FILE: "../logs/adapter/adapter.log"
+      DESTINATION: "example"
+      _INDEX: "cy_voucher"
+      _TYPE: "cy_voucher"
+      _ID: "_id"
+      SQL: "SELECT t.id AS _id, t.id, t.type, t.game_id, t.game_name, t.lm_id, t.lm_name, t.agent_id, t.game_type, t.status, t.ttb_use, t.from, t.money, t.total_num, t.limit_pay,t.start_time,t.end_time,t.instruc,t.create_time,t.draw_num,t.update_time,t.box_game_id,t.sort,t.name,t.game_sort,t.show_agent,t.developer_uid,t.developer_id FROM cy_voucher t"
+      COMMITBATCH: "3000"
+    links:
+      - canal-server
+    depends_on:
+      - canal-server
+    networks:
+      - canal-net
+networks:
+  canal-net:
+    driver: bridge
