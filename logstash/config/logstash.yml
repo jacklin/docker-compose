@@ -1,2 +1,15 @@
 http.host: "0.0.0.0"
 xpack.monitoring.elasticsearch.hosts: [ "http://172.16.63.251:9200" ]
+
+pipeline.workers: 8
+pipeline.batch.size: 20000
+pipeline.batch.delay: 10
+
+queue.type: persisted
+path.queue: /usr/share/logstash/data
+queue.page_capacity: 250mb 
+queue.max_events: 0 
+queue.max_bytes: 1024mb
+queue.checkpoint.acks: 2048
+queue.checkpoint.writes: 2048
+queue.checkpoint.interval: 1000
