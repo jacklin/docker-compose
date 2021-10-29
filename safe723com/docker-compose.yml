@@ -1,0 +1,12 @@
+version: "3"
+services:
+  overseas-safe:
+    image: registry.cn-hangzhou.aliyuncs.com/7723/php:7.1.33-fpm-apline-safe
+    container_name: overseas-safe
+    restart: always
+    ports:
+      - 8080:9502
+    networks:
+      - net-web
+networks:
+  net-web:

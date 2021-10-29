@@ -17,9 +17,8 @@ services:
       - "9300:9300"
     volumes:
       - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      - ./data/es:/usr/share/elasticsearch/data/:rw
-      - ./data/es_data2:/usr/share/elasticsearch/data2/:rw
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+      - ./plugins/ik:/usr/share/elasticsearch/plugins/ik:ro  
     networks:
       - net-es
     stdin_open: true
@@ -41,6 +40,7 @@ services:
     volumes:
       - ./config/es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+      - ./plugins/ik:/usr/share/elasticsearch/plugins/ik:ro  
     networks:
       - net-es
   es2:
@@ -61,6 +61,7 @@ services:
     volumes:
       - ./config/es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro  
+      - ./plugins/ik:/usr/share/elasticsearch/plugins/ik:ro  
     networks:
       - net-es
   es3:
@@ -81,10 +82,11 @@ services:
     volumes:
       - ./config/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin:ro
+      - ./plugins/ik:/usr/share/elasticsearch/plugins/ik:ro  
     networks:
       - net-es
   kibana:
-    image: kibana
+    image: kibana:5.6.16
     container_name: kibana
     environment:
       SERVER_NAME: kibana

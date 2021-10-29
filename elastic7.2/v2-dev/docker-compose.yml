@@ -14,9 +14,11 @@ services:
       - "9272:9200"
       - "9372:9300"
     volumes:
-      - ./data/es720:/usr/share/elasticsearch/data
+      - vdb1:/usr/share/elasticsearch/data
       - ./config/es.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./config/analysis-ik:/usr/share/elasticsearch/config/analysis-ik
       - ./plugins/pinyin:/usr/share/elasticsearch/plugins/pinyin
+      - ./plugins/analysis-ik:/usr/share/elasticsearch/plugins/analysis-ik
       - ./config/_es.jvm.options:/usr/share/elasticsearch/config/jvm.options
       - ./config/_es.log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
     restart: always

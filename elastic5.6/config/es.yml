@@ -4,7 +4,7 @@ node.name: es
 node.master: true
 node.data: true
 
-path.data: /usr/share/elasticsearch/data,/usr/share/elasticsearch/data2
+path.data: /usr/share/elasticsearch/data
 
 network.host: es
 http.port: 9200
@@ -12,7 +12,7 @@ transport.tcp.port: 9300
 http.cors.enabled: true
 http.cors.allow-origin: "*"
 
-discovery.zen.ping.unicast.hosts: ["es:9300", "es1:9300", "es2:9300", "es3:9300"]
+discovery.zen.ping.unicast.hosts: ["es:9300", "es1:9300", "es2:9300"]
 discovery.zen.minimum_master_nodes: 1
 discovery.zen.ping_timeout: 5s
 

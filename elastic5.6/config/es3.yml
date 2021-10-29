@@ -1,7 +1,10 @@
 cluster.name: my-test
 node.name: es3
 node.master: false
-node.data: false
+node.data: true
+node.ingest: true
+
+path.data: /usr/share/elasticsearch/data
 
 network.host: es3
 http.port: 9200
