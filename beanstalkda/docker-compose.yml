@@ -1,0 +1,18 @@
+version: "2"
+services:
+  bsa:
+    image: jacklin/beanstalkd-console:1.7.11-7.1.2-fpm-nginx-alpine
+    container_name: beanstalkda
+    environment:
+      WEB_SERVER_NAME: "beanstalkd-admin.sosomod.com"
+      BEANSTALKD_ENABLE_AUTH: "enable"
+      BEANSTALKD_AUTH_USERNAME: 'beanstalkd-admin'
+      BEANSTALKD_AUTH_PASSWORD: 'beanstalkd-admin.sosomod.com'
+    ports:
+      - "2080:2080/tcp"
+    restart: always
+    networks:
+      - net-web
+networks:
+  net-web:
+    external: true
