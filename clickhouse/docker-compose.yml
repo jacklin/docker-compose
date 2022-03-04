@@ -1,0 +1,42 @@
+version: '3.0'
+services:
+  #######################################
+  # clickhouse-server
+  #######################################
+  clickhouse-server:
+    image: clickhouse/clickhouse-server
+    restart: always
+    ports:
+      - 8123:8123
+      - 9004:9004
+    volumes:
+      - "vdb1:/var/lib/clickhouse"
+      - "./conf/config.xml:/etc/clickhouse-server/config.xml"
+      - "./conf/users.xml:/etc/clickhouse-server/users.xml"
+    networks:
+      - clickhouse-net
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  tabix:
+    image: jacklin/tabix
+    restart: always
+    ports:
+      - 8088:80
+    networks:
+      - clickhouse-net
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    command: ["sh", "./start.sh"]
+volumes:
+  vdb1:
+    driver: local
+networks:
+  clickhouse-net:
+    external: true
