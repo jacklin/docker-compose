@@ -1,16 +1,36 @@
-version: '2'
+version: "3"
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: 'bitnami/zookeeper:latest'
     ports:
-      - "2181"
-  kafka:
-    image: jacklin/kafka:2.7.0
-    ports:
-      - "9092"
+      - '2181:2181'
     environment:
-      DOCKER_API_VERSION: 1.22
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.50.90
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      - ALLOW_ANONYMOUS_LOGIN=yes
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - zoookeeper-vdb1:/bitnami/zookeeper
+    networks:
+      - clickhouse-net
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.50.90:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    volumes:
+      - kafka-vdb1:/bitnami/kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - clickhouse-net
+volumes:
+  zoookeeper-vdb1:
+    driver: local
+  kafka-vdb1:
+    driver: local
+networks:
+  clickhouse-net:
+    external: true
