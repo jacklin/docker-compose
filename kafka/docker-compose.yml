@@ -9,28 +9,51 @@ services:
     volumes:
       - zoookeeper-vdb1:/bitnami/zookeeper
     networks:
-      - clickhouse-net
+      - kafka-net
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: 'jacklin/kafka:bitnami-3.2-debian-11'
     ports:
       - '9092:9092'
+    extra_hosts:
+      - "127_0_0_1.explame.com:127.0.0.1"
     environment:
-      - KAFKA_BROKER_ID=1
+      #值不要加引号或者双引号
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.50.90:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - MY_ENABLE_POINT_TO_UNDERLINE=1
+      - MY_POD_IP=127.0.0.1
+      - MY_POD_NAME=kafka-1
+      - MY_CLUSTER_IN_DOMAIN_NAME=.explame.com
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.50.90:9092
     volumes:
       - kafka-vdb1:/bitnami/kafka
     depends_on:
       - zookeeper
     networks:
-      - clickhouse-net
+      - kafka-net
+  # kafka:
+  #   image: 'jacklin/kafka:2.7.0'
+  #   ports:
+  #     - '9092:9092'
+  #   environment:
+  #     HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+  #     KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+  #     KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   depends_on:
+  #     - zookeeper
+  #   networks:
+  #     - kafka-net
 volumes:
   zoookeeper-vdb1:
     driver: local
   kafka-vdb1:
     driver: local
 networks:
-  clickhouse-net:
+  kafka-net:
     external: true
