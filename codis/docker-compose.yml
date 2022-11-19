@@ -1,0 +1,85 @@
+version: "3.7"
+services:
+  zoo:
+    image: jacklin/zookeeper:3.7.0
+    restart: always
+    hostname: zookeeper
+    ports:
+      - 2181:2181
+      - 8180:8080
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181
+      JAVA_HOME: /usr/local/openjdk-11
+      ZOO_DATA_DIR: /zookeeper/zoo/data
+      ZOO_DATA_LOG_DIR: /zookeeper/zoo/datalog
+      JVMFLAGS: "-Xmx1024m"
+    volumes:
+      - vdb-zoo-data:/zookeeper/zoo/data:rw
+      - vdb-zoo-datalog:/zookeeper/zoo/datalog:rw
+    networks:
+      - net-pika
+
+  codis-dashboard:
+    image: jacklin/codis-pika:latest
+    restart: always
+    hostname: dashboard
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 18080:18080
+    volumes:
+      - ./config/:/gopath/src/github.com/CodisLabs/codis/config/:rw
+    command: /bin/bash -c "codis-dashboard --config=/gopath/src/github.com/CodisLabs/codis/config/dashboard.toml --log-level=WARN"
+    networks:
+      - net-pika
+  codis-proxy:
+    image: jacklin/codis-pika:latest
+    restart: always
+    hostname: proxy
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 29000:19000
+      - 21080:11080
+    volumes:
+      - ./config/:/gopath/src/github.com/CodisLabs/codis/config/:rw
+    command: /bin/bash -c "codis-proxy --config=/gopath/src/github.com/CodisLabs/codis/config/proxy.toml --dashboard=dashboard:18080 --log-level=WARN --session_auth=654321"
+    networks:
+      - net-pika
+  codis-fe:
+    image: jacklin/codis-pika:latest
+    restart: always
+    hostname: fe
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 28080:8080
+    volumes:
+      - ./config/:/gopath/src/github.com/CodisLabs/codis/config/:rw
+    command: /bin/bash -c "codis-fe --assets-dir=/gopath/src/github.com/CodisLabs/codis/cmd/fe/assets/ --zookeeper=zookeeper:2181 --listen=0.0.0.0:8080 --log-level=WARN"
+    networks:
+      - net-pika
+networks:
+  net-pika:
+    external: true
+volumes:
+  vdb-zoo-data:
+    driver: local
+  vdb-zoo-datalog:
+    driver: local

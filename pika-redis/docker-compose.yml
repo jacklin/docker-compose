@@ -1,0 +1,79 @@
+version: "3.7"
+services:
+  master-0:
+    image: jacklin/pika-kubernetes:latest
+    restart: always
+    hostname: master-0
+    environment: 
+      - "IS_DOUBLE_MODE=false"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      # - "./conf/master-1.conf:/pika/conf/pika.conf"
+      - "m-0-vdb:/pika/data/"
+    ports:
+     - 9220:9221
+    networks:
+      - net-pika
+  slave-0:
+    image: jacklin/pika-kubernetes:latest
+    restart: always
+    hostname: slave-0
+    environment:
+      - "IS_SLAVE=true"
+      - "IS_DOUBLE_MODE=false"
+      - "SLAVEOF=slaveof : master-0:9221"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      # - "./conf/slave-1.conf:/pika/conf/pika.conf"
+      - "s-0-vdb:/pika/data"
+    ports:
+     - 9222:9221
+    networks:
+      - net-pika
+  slave-1:
+    image: jacklin/pika-kubernetes:latest
+    restart: always
+    hostname: slave-1
+    environment:
+      - "IS_SLAVE=true"
+      - "IS_DOUBLE_MODE=false"
+      - "SLAVEOF=slaveof : master-0:9221"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      # - "./conf/slave-1.conf:/pika/conf/pika.conf"
+      - "s-1-vdb:/pika/data"
+    ports:
+     - 9223:9221
+    networks:
+      - net-pika
+volumes:
+  m-0-vdb:
+    driver: local
+  s-0-vdb:
+    driver: local
+  s-1-vdb:
+    driver: local
+networks:
+  net-pika:
+    external: true
+    ipam:
+      config:
+      - subnet: 172.16.1.0/24
