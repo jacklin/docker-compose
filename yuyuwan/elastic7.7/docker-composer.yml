@@ -1,0 +1,76 @@
+version: '3'
+services:
+  yuyuwan-es01:
+    image: registry.cn-hangzhou.aliyuncs.com/7723/elastic:7.7.0-ik
+    container_name: yuyuwan-es01
+    environment:
+      - node.name=yuyuwan-es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=yuyuwan-es02
+      - cluster.initial_master_nodes=yuyuwan-es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.data=true
+      - node.ingest=true
+      - node.master=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "19201:9200"
+      - "19301:9300"
+    volumes:
+      - vdb1:/usr/share/elasticsearch/data
+    restart: always
+    networks:
+      - net-yuyuwan 
+  yuyuwan-es02:
+    image: registry.cn-hangzhou.aliyuncs.com/7723/elastic:7.7.0-ik
+    container_name: yuyuwan-es02
+    environment:
+      - node.name=yuyuwan-es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=yuyuwan-es01
+      - cluster.initial_master_nodes=yuyuwan-es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - node.data=true
+      - node.ingest=true
+      - node.master=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "19202:9200"
+      - "19302:9300"
+    volumes:
+      - vdb2:/usr/share/elasticsearch/data
+    restart: always
+    networks:
+      - net-yuyuwan 
+  yuyuwan-kibana:
+    image: kibana:7.7.0
+    container_name: yuyuwan-kibana
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_HOSTS: http://yuyuwan-es02:9200
+    ports:
+      - 15601:5601
+    networks:
+      - net-yuyuwan
+volumes:
+  vdb1:
+    driver: local
+  vdb2:
+    driver: local
+networks:
+  net-yuyuwan:
+    external: true

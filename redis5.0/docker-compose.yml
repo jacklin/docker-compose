@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  redis-db:
+  yuyuwan-redis-db:
     image: redis:5.0
     container_name: redis-db
     restart: always
@@ -8,10 +8,10 @@ services:
       - ./data/redis-db:/data:rw
       - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf
-    expose:
-     - 6379
+    ports:
+      - 16379:6379
     networks:
-      - net-app-internal
+      - net-yuyuwan
 networks:
-  net-app-internal:
+  net-yuyuwan:
     external: true
